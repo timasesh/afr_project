@@ -1,0 +1,21 @@
+{% load static %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="{% static 'styles.css' %}"><h2>Добавить вопрос к квизу: {{ quiz.title }}</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        {{ question_form.as_p }}
+    </div>
+
+    <h3>Ответы</h3>
+    {{ formset.management_form }}
+    {% for form in formset %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary">Сохранить вопрос</button>
+</form>
+
+<a href="{% url 'quiz_list' %}" class="btn btn-secondary">Завершить добавление вопросов</a>

@@ -1,0 +1,15 @@
+{% load static %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+
+<h2>Редактировать тест</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ question_form.as_p }}
+    {{ formset.management_form }}
+    <h4>Варианты ответов:</h4>
+    {% for form in formset %}
+        {{ form.as_p }}
+    {% endfor %}
+    <button type="submit">Сохранить</button>
+</form>
