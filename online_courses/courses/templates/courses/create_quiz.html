@@ -1,0 +1,42 @@
+{% load static %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+
+<h2 class="zagolovok">Создать новый квиз</h2>
+
+<div class="container d-flex justify-content-center align-items-center">
+    <form method="post" class="formmm">
+        {% csrf_token %}
+        {{ quiz_form.as_p }}
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .container {
+        width: 300px;
+        height: 150px;
+        background-color: lightgray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .formmm {
+        width: 100%;
+    }
+
+    .btn {
+        margin-top: 20px;
+    }
+
+    .zagolovok {
+        margin-left: 490px;
+        margin-top: 100px;
+    }
+</style>

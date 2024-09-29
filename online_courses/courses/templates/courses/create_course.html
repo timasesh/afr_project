@@ -1,0 +1,30 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Создать курс</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <header class="navbar navbar-dark bg-primary">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1">ADMIN</span>
+            <a href="{% url 'admin_page' %}" class="btn btn-outline-light" id="logout-btn">Назад</a>
+            <a href="{% url 'logout' %}" class="btn btn-outline-light" id="logout-btn">Выйти</a>
+        </div>
+    </header>
+
+</head>
+<body>
+<h2>Создать курс</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ course_form.as_p }}
+    <button type="submit" class="btn btn-primary" name="add_course">Создать курс</button>
+</form>
+
+</body>
+</html>

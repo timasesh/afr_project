@@ -1,6 +1,6 @@
-# courses/models.py
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
+
 
 class User(AbstractUser):
     is_student = models.BooleanField(default=False)
@@ -21,6 +21,7 @@ class User(AbstractUser):
         verbose_name='user permissions'
     )
 
+
 class Lesson(models.Model):
     title = models.CharField(max_length=100)
     video = models.FileField(upload_to='videos/')
@@ -29,25 +30,61 @@ class Lesson(models.Model):
     def __str__(self):
         return self.title
 
-class Module(models.Model):
-    title = models.CharField(max_length=100)
-    lessons = models.ManyToManyField(Lesson)
+
+class Quiz(models.Model):
+    title = models.CharField(max_length=255)  # Название квиза
 
     def __str__(self):
         return self.title
+
+    def questions(self):
+        return self.question_set.all()
+
+
+class Question(models.Model):
+    quiz = models.ForeignKey(Quiz, related_name='questions', on_delete=models.CASCADE)
+    text = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.text
+
+
+class Answer(models.Model):
+    text = models.CharField(max_length=255)  # Текст ответа
+    question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
+    is_correct = models.BooleanField(default=False)  # Правильный ли ответ
+
+    def __str__(self):
+        return f'{self.text} ({"Правильный" if self.is_correct else "Неправильный"})'
+
+
+class Module(models.Model):
+    title = models.CharField(max_length=100)
+    lessons = models.ManyToManyField(Lesson)
+    description = models.TextField(null=True, blank=True, default="")
+    quizzes = models.ManyToManyField(Quiz, blank=True)  # Связь с квизами
+
+    def __str__(self):
+        return self.title
+
 
 class Course(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
-    modules = models.ManyToManyField(Module)
+    modules = models.ManyToManyField(Module, blank=True)
 
     def __str__(self):
         return self.title
 
+
 class StudentProgress(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    progress = models.IntegerField(default=0)  # Progress in percentage
+    progress = models.IntegerField(default=0)  # Прогресс в процентах
+
+    def clean(self):
+        if not (0 <= self.progress <= 100):
+            raise ValidationError("Progress must be between 0 and 100.")
 
     def __str__(self):
         return f'{self.student.username} - {self.course.title} ({self.progress}%)'
