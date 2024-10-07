@@ -10,8 +10,6 @@ urlpatterns = [
     path('course/<int:course_id>/', views.course_detail, name='course_detail'),
     path('delete/student/<int:student_id>/', views.delete_student, name='delete_student'),
     path('delete/lesson/<int:lesson_id>/', views.delete_lesson, name='delete_lesson'),
-    path('delete/module/<int:module_id>/', views.delete_module, name='delete_module'),
-
     path('create/', views.create_quiz, name='create_quiz'),  # Создание квиза
     path('edit/<int:pk>/', views.edit_quiz, name='edit_quiz'),  # Редактирование квиза
     path('quizzes/', views.quiz_list, name='quiz_list'),  # Список квизов
@@ -23,5 +21,9 @@ urlpatterns = [
     path('delete/course/<int:course_id>/', views.delete_course, name='delete_course'),
     path('create_course/', views.create_course, name='create_course'),
     path('module/details/<int:module_id>/', views.module_details, name='module_details'),
-
+    path('show-lessons/', views.show_lessons, name='show_lessons'),
+    path('get-lessons/<int:module_id>/', views.get_lessons, name='get_lessons'),
+    path('delete/module/<int:module_id>', views.delete_module, name='delete_module'),
+    path('create_module/', views.create_module, name='create_module_no_id'),
+    path('create_module/<int:module_id>/', views.create_module, name='create_modul'),
 ]

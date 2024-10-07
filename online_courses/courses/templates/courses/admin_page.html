@@ -78,6 +78,7 @@
                         {{ module_form.as_p }}
                         <button type="submit" class="btn btn-primary" name="add_module">Создать модуль</button>
                     </form>
+
                 </div>
                 <div class="tab-pane fade" id="v-pills-manage-course" role="tabpanel" aria-labelledby="v-pills-manage-course-tab">
                     <h2>Создать курс</h2>
@@ -222,6 +223,38 @@ function addQuestion() {
             });
         });
     });
+$(document).ready(function() {
+    let courseId;
+
+    // Когда пользователь нажимает кнопку удаления
+    $('.delete-course-btn').on('click', function() {
+        courseId = $(this).data('course-id'); // Сохраняем ID курса, который нужно удалить
+    });
+
+    // При подтверждении удаления
+    $('#confirmDeleteBtn').on('click', function() {
+        $.ajax({
+            url: `/delete/course/${courseId}/`,  // URL на удаление
+            type: 'DELETE',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'  // Добавляем CSRF токен
+            },
+            success: function(response) {
+                // Закрываем модальное окно
+                $('#confirmDeleteModal').modal('hide');
+
+                // Убираем строку курса из таблицы
+                $(`a[data-course-id="${courseId}"]`).closest('tr').remove();
+
+                // Можно вывести сообщение об успехе
+                alert('Курс успешно удален');
+            },
+            error: function(xhr, status, error) {
+                console.error('Ошибка удаления курса:', error);
+            }
+        });
+    });
+});
 
 </script>
 

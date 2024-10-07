@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Создать квиз</title>
+    <title>Создать модуль</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
@@ -18,16 +18,15 @@
         </div>
     </header>
 
-    <h2 class="zagolovok">Создать новый квиз</h2>
+    <h2 class="zagolovok">Создать новый модуль</h2>
 
     <div class="container">
         <form method="post">
             {% csrf_token %}
-            {{ quiz_form.as_p }}
-            <button type="submit" class="btn btn-primary">Сохранить</button>
+            {{ module_form.as_p }}
+            <button type="submit" class="btn btn-primary" name="add_module">Создать модуль</button>
         </form>
     </div>
-
 <style>
     /* Общие стили для body */
 body {
@@ -101,5 +100,4 @@ form button {
 
 </style>
 </body>
-
 </html>

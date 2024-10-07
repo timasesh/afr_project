@@ -62,9 +62,10 @@ class AnswerForm(forms.ModelForm):
 # Создание формсета для ответа, чтобы можно было добавлять несколько ответов
 AnswerFormSet = inlineformset_factory(Question, Answer, form=AnswerForm, extra=4)
 
-from .models import Course, Module, Quiz
+from .models import Course, Module, Quiz, Lesson
 
 class QuizToModuleForm(forms.Form):
     course = forms.ModelChoiceField(queryset=Course.objects.all(), required=True)
     module = forms.ModelChoiceField(queryset=Module.objects.all(), required=True)
     quiz = forms.ModelChoiceField(queryset=Quiz.objects.all(), required=True)
+

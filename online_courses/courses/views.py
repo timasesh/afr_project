@@ -311,6 +311,8 @@ def create_course(request):
     }
     return render(request, 'courses/create_course.html', context)
 
+
+
 @login_required
 def module_details(request, module_id):
     module = Module.objects.get(id=module_id)
@@ -322,3 +324,25 @@ def module_details(request, module_id):
     }
     return render(request, 'courses/module_details.html', context)
 
+def show_lessons(request):
+    lessons_title = Lesson.title.objects.all()
+    return render(request, 'courses/admin_page_test.html', {'lessons_title': lessons_title})
+
+def get_lessons(request, module_id):
+    module = Module.objects.get(id=module_id)
+    lessons = module.lessons.all().values('id', 'title')  # Получаем только нужные поля
+    return JsonResponse({'lessons': list(lessons)})
+
+def create_module(request, module_id=None):
+    if request.method == 'POST':
+        module_form = ModuleCreationForm(request.POST)
+
+        if module_form.is_valid():
+            module = module_form.save()
+            return redirect('add_question', module_id=module.id)
+    else:
+        module_form = ModuleCreationForm()
+
+    return render(request, 'courses/create_module.html', {
+        'module_form': module_form,
+    })
